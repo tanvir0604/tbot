@@ -9,9 +9,9 @@ export default async function TradeList() {
   if(!tradeList) return <></>;
 
   return (
-    <div className="grid grid-cols-2 gap-4 justify-center">
+    <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
       {tradeList.map((item:TradeType, index: number) => (
-          <PairCards key={index} symbol={item.symbol}/>
+          <PairCards key={index} item={item}/>
       ))}
     </div>
   );

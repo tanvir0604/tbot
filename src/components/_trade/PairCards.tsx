@@ -11,8 +11,9 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Check, CircleX } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { TradeType } from "@/lib/types";
 
-export default function PairCards({symbol} : {symbol : String}) {
+export default function PairCards({item} : {item : TradeType}) {
 
     const tradingViewRef = useRef(null);
 
@@ -22,8 +23,8 @@ export default function PairCards({symbol} : {symbol : String}) {
         if ((window as any).TradingView) {
             // Initialize the TradingView widget
             new (window as any).TradingView.widget({
-                symbol: symbol,  // Dynamic symbol
-                container_id: `tradingview_${symbol}`,  // Unique container ID
+                symbol: item.symbol,  // Dynamic symbol
+                container_id: `tradingview_${item.symbol}`,  // Unique container ID
                 width: '100%',
                 height: 300,
                 interval: '1H',
@@ -45,13 +46,13 @@ export default function PairCards({symbol} : {symbol : String}) {
     return (
         <Card className="w-full">
             <CardHeader className="flex flex-row items-center w-full">
-                <CardTitle className="flex-shrink-0 w-1/3 text-left">{symbol}</CardTitle>
-                <CardTitle className="flex-1 text-center">V:204567</CardTitle>
+                <CardTitle className={`flex-shrink-0 w-1/3 text-left ${item.type === 'LONG' ? 'text-green-500' : 'text-red-500'}`}>{item.symbol}</CardTitle>
+                <CardTitle className="flex-1 text-center">V:23423</CardTitle>
                 <CardTitle className="flex-shrink-0 w-1/3 text-right">CP:59345.02</CardTitle>
             </CardHeader>
 
             <CardContent>
-                <div ref={tradingViewRef} id={`tradingview_${symbol}`} className="w-full mb-4"></div>
+                <div ref={tradingViewRef} id={`tradingview_${item.symbol}`} className="w-full mb-4"></div>
                 <Table className="w-full mt-4">
                     <TableHeader>
                         <TableRow>
