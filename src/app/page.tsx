@@ -1,12 +1,13 @@
-import PairCards from "@/components/PairCards";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
+import TradeList from "@/components/_trade/TradeList";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div className="grid grid-cols-2 gap-4 justify-center">
-      <PairCards symbol="BTCUSDT" />
-      <PairCards symbol="SOLUSDT" />
-      <PairCards symbol="ETHUSDT" />
-      <PairCards symbol="NOTUSDT" />
-    </div>
+    <Suspense fallback={
+      <><Skeleton className="h-[300px] w-full"></Skeleton><Skeleton className="h-[300px] w-full"></Skeleton><Skeleton className="h-[300px] w-full"></Skeleton><Skeleton className="h-[300px] w-full"></Skeleton></>
+    }>
+      <TradeList />
+    </Suspense>
   );
 }
