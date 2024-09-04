@@ -34,6 +34,12 @@ export const CreateNewTradeSchema = z.object({
     }).positive({
         message: "must be positive",
     }).min(5, {message: "must be greater than 5",}),
+    size: z.coerce.number({
+        required_error: "This field is required",
+        invalid_type_error: "Number needed"
+    }).positive({
+        message: "must be positive",
+    }).min(5, {message: "must be greater than 5",}),
     quantity: z.coerce.number({
         required_error: "This field is required",
         invalid_type_error: "Number needed"

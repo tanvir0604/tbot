@@ -29,15 +29,17 @@ export default function CreateNewTradeForm() {
     const [ isPending, startTransition ] = useTransition();
     const [ message, setMessage ] = useState<NotificationType>({});
     const [ symbol, setSymbol ] = useState<string>('');
-    const [ leverage, setLeverage ] = useState<string>('1');
-    const [ price, setPrice ] = useState<string>("0");
-    const [ quantity, setQuantity ] = useState<string>("0");
+    const [ leverage, setLeverage ] = useState<number>(1);
+    const [ price, setPrice ] = useState<number>(0);
+    const [ quantity, setQuantity ] = useState<number>(0);
+    const [ size, setSize ] = useState<number>(0);
 
     const defaultValues = {
         symbol: "",
         price: 0,
+        size: 0,
         quantity: 0,
-        leverage: "0"
+        leverage: "1"
     };
 
     const form = useForm<z.infer<typeof CreateNewTradeSchema>>({
@@ -73,14 +75,34 @@ export default function CreateNewTradeForm() {
         });
     }, [symbol]);
 
-    useEffect(() => {
 
+
+    useEffect(() => {
+        console.log('updating price');
+        let price = form.getValues('price');
+        if(price <= 0) return;
+        let qty = (size*leverage)/price;
+        form.setValue('quantity', qty);
     }, [price]);
     useEffect(() => {
-
+        console.log('updating size');
+        let size = form.getValues('size');
+        if(price <= 0) return;
+        let qty = (size*leverage)/price;
+        form.setValue('quantity', qty);
+    }, [size]);
+    useEffect(() => {
+        console.log('updating quantity');
+        let quantity = form.getValues('quantity');
+        let size = quantity*price;
+        form.setValue('size', size);
     }, [quantity])
     useEffect(() => {
-
+        console.log('updating leverage');
+        let size = form.getValues('size');
+        if(price <= 0) return;
+        let qty = (size*leverage)/price;
+        form.setValue('quantity', qty);
     }, [leverage])
 
 
@@ -121,7 +143,7 @@ export default function CreateNewTradeForm() {
                             <RadioGroup
                             onValueChange={(value:string) => {
                                 field.onChange;
-                                setLeverage(value);
+                                setLeverage(Number(value));
                             }}
                             defaultValue={field.value}
                             className="flex space-x-2"
@@ -183,7 +205,21 @@ export default function CreateNewTradeForm() {
                         <FormItem>
                             <FormLabel>Price</FormLabel>
                             <FormControl>
-                                <Input onChangeCapture={e => setPrice(e.currentTarget.value)} type="number" placeholder="Price" {...field} />
+                                <Input onChangeCapture={e => setPrice(Number(e.currentTarget.value))} type="number" placeholder="Price" {...field} />
+                            </FormControl>
+                            <FormMessage className="text-xs" />
+                        </FormItem>
+                    )}
+                    />
+
+                    <FormField 
+                    control={form.control} 
+                    name="size" 
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Size</FormLabel>
+                            <FormControl>
+                                <Input onChangeCapture={e => setSize(Number(e.currentTarget.value))} type="number" placeholder="Size" {...field} />
                             </FormControl>
                             <FormMessage className="text-xs" />
                         </FormItem>
@@ -197,7 +233,7 @@ export default function CreateNewTradeForm() {
                         <FormItem>
                             <FormLabel>Quantity</FormLabel>
                             <FormControl>
-                                <Input onChangeCapture={e => setQuantity(e.currentTarget.value)} type="number" placeholder="Quantity" {...field} />
+                                <Input onChangeCapture={e => setQuantity(Number(e.currentTarget.value))} type="number" placeholder="Quantity" {...field} />
                             </FormControl>
                             <FormMessage className="text-xs" />
                         </FormItem>
@@ -210,7 +246,7 @@ export default function CreateNewTradeForm() {
                         <ActionButton pending={isPending} className="mt-3 bg-success hover:bg-success/90" type="submit">Buy / Long</ActionButton>
                         <div className="mt-2 text-start">
                             <span className="block text-[11px] text-zinc-500">Est Liq Price: <span className="text-zinc-200 text-sm">100</span></span>
-                            <span className="block text-[11px] text-zinc-500">Cost: <span className="text-zinc-200 text-sm">100</span></span>
+                            <span className="block text-[11px] text-zinc-500">Cost: <span className="text-zinc-200 text-sm">{size*leverage} USDT</span></span>
                             <span className="block text-[11px] text-zinc-500">Max: <span className="text-zinc-200 text-sm">100</span></span>
                         </div>
                     </div>
@@ -218,7 +254,7 @@ export default function CreateNewTradeForm() {
                         <ActionButton pending={isPending} className="mt-3 bg-destructive hover:bg-destructive/90" type="submit">Sell / Short</ActionButton>
                         <div className="mt-2 text-end">
                             <span className="block text-[11px] text-zinc-500">Est Liq Price: <span className="text-zinc-200 text-sm">100</span></span>
-                            <span className="block text-[11px] text-zinc-500">Cost: <span className="text-zinc-200 text-sm">100</span></span>
+                            <span className="block text-[11px] text-zinc-500">Cost: <span className="text-zinc-200 text-sm">{size*leverage}</span></span>
                             <span className="block text-[11px] text-zinc-500">Max: <span className="text-zinc-200 text-sm">100</span></span>
                         </div>
                     </div>
