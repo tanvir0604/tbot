@@ -36,10 +36,10 @@ async function makeRequest(method: 'POST'|'GET'|'PATCH'|'PUT', url:string, data:
     }
 }
 
-export async function getAllTradingPairs():Promise<TradingPairType|false>{
+export async function getAllTradingPairs():Promise<TradingPairType[]>{
     const url = "fapi/v1/exchangeInfo";
     const response = await makeRequest('GET', url, {});
-    return response??false;
+    return response?.symbols??false;
 }
 
 export async function getPositionDetails(symbol: string):Promise<AnyDataType[]|false>{

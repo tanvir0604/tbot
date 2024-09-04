@@ -11,7 +11,7 @@ export default async function handler(
     const tradingPairs = await getAllTradingPairs();
     // console.log('Trading Pairs:', tradingPairs);
 
-    const customArray = tradingPairs.symbols.map((symbolData: { symbol: string; baseAsset: string; quoteAsset: string; }, index: number) => ({
+    const customArray = tradingPairs.map((symbolData: { symbol: string; baseAsset: any; quoteAsset: any; }, index: number) => ({
         id: index + 1, 
         symbol: symbolData.symbol,
         baseAsset: symbolData.baseAsset,
