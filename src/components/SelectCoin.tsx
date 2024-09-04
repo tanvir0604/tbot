@@ -57,9 +57,9 @@ export default function SelectCoin({onSelect, defaultValue}:{onSelect:Function, 
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search Symbol..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No symbol found.</CommandEmpty>
             <CommandGroup>
               {coinData.map((item, index) => (
                 <CommandItem
@@ -68,7 +68,9 @@ export default function SelectCoin({onSelect, defaultValue}:{onSelect:Function, 
                   onSelect={(currentValue) => {
                     setValue(currentValue);
                     onSelect(currentValue);
+                    setOpen(false);
                   }}
+                  
                 >
                   <Check
                     className={cn(

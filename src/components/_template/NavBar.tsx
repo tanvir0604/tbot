@@ -10,7 +10,7 @@ import CreateNewTradeButton from "@/components/_button/CreateNewTradeButton";
 export async function Navbar() {
   return (
     <div className="bg-white dark:bg-black dark:border-b drop-shadow-lg">
-      <div className="flex h-20 shrink-0 items-center max-w-7xl mx-auto px-4">
+      <div className="flex h-20 shrink-0 items-center mx-auto px-4">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">

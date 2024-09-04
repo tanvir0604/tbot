@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CreateNewTradeSchema } from "@/lib/schema";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import {
     Form,
@@ -27,6 +27,7 @@ import SelectCoin from "@/components/SelectCoin";
 export default function CreateNewTradeForm() {
     const [ isPending, startTransition ] = useTransition();
     const [ message, setMessage ] = useState<NotificationType>({});
+    const [ symbol, setSymbol ] = useState<string>('');
 
     const defaultValues = {
         symbol: ""
@@ -52,6 +53,10 @@ export default function CreateNewTradeForm() {
         })
     }
 
+    useEffect(() => {
+        checkTrade(symbol);
+    }, [symbol])
+
 
     return (
         <Form {...form}>
@@ -71,6 +76,7 @@ export default function CreateNewTradeForm() {
                             <FormControl>
                                 <SelectCoin defaultValue={field.value} onSelect={(value:string) => {
                                     form.setValue("symbol", value);
+                                    setSymbol(value);
                                 }}/>
                             </FormControl>
                             <FormMessage className="text-xs" />
