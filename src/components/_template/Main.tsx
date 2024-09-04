@@ -4,7 +4,7 @@ export default async function Main({
     children: React.ReactNode;
   }>) {
     return (
-        <main className="pt-6 pb-6 max-w-7xl mx-auto w-full px-4">
+        <main className="pt-6 pb-6 mx-auto w-full px-4">
             { children }
         </main>
     )

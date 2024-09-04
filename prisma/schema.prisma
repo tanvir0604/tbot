@@ -30,7 +30,7 @@ model Trade {
   content   Json?
   author    User    @relation(fields: [authorId], references: [id])
   authorId  Int
-  status    Int @db.TinyInt @default(0)
+  status    Int @db.TinyInt @default(0) // 0 = pending, 1 = active, 2 = completed
   createdAt DateTime
   updatedAt DateTime @updatedAt
 }
