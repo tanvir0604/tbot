@@ -42,6 +42,14 @@ export async function getAllTradingPairs():Promise<TradingPairType|false>{
     return response??false;
 }
 
+export async function getPositionDetails(symbol: string):Promise<AnyDataType[]|false>{
+    const url = "fapi/v3/positionRisk";
+    const response = await makeRequest('GET', url, {
+        symbol: symbol
+    });
+    return response??false;
+}
+
 // export async function getTradingPairs(baseAsset: string):Promise<SymbolType[]|false>{
 //     let response:ExchangeInfoType|false = await getAllTradingPairs();
 //     if(!response) return false;

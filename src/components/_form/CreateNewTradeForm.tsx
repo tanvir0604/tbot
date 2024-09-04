@@ -18,7 +18,7 @@ import {
 
   
 
-import { createNewTrade } from "@/lib/actions";
+import { checkTrade, createNewTrade } from "@/lib/actions";
 import Notification from "@/components/Notification";
 import { NotificationType } from "@/lib/types";
 import SelectCoin from "@/components/SelectCoin";
@@ -54,7 +54,16 @@ export default function CreateNewTradeForm() {
     }
 
     useEffect(() => {
-        checkTrade(symbol);
+        console.log('this is working');
+        checkTrade(symbol).then((res) => {
+            if(res == true){
+                console.log(res);
+            }else{
+                setMessage(res);
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
     }, [symbol])
 
 
@@ -85,7 +94,10 @@ export default function CreateNewTradeForm() {
                     />
                     
                 </div>
-                <ActionButton pending={isPending} className="mt-3" type="submit">Create New Trade</ActionButton>
+                <div className="flex gap-2">
+                    <ActionButton pending={isPending} className="mt-3 bg-success" type="submit">Buy / Long</ActionButton>
+                    <ActionButton pending={isPending} className="mt-3 bg-destructive" type="submit">Sell / Short</ActionButton>
+                </div>
             </form>
         </Form>
     );
