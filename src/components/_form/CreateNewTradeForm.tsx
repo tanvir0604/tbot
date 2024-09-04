@@ -54,15 +54,16 @@ export default function CreateNewTradeForm() {
     }
 
     useEffect(() => {
-        const checkTradeInfo = async () => {
-            const check = await checkTrade(symbol);
-            if(check){
-                return false;
+        console.log('this is working');
+        checkTrade(symbol).then((res) => {
+            if(res == true){
+                console.log(res);
             }else{
-                setMessage(check);
+                setMessage(res);
             }
-            
-        }
+        }).catch((err) => {
+            console.log(err);
+        });
     }, [symbol])
 
 
@@ -93,7 +94,10 @@ export default function CreateNewTradeForm() {
                     />
                     
                 </div>
-                <ActionButton pending={isPending} className="mt-3" type="submit">Create New Trade</ActionButton>
+                <div className="flex gap-2">
+                    <ActionButton pending={isPending} className="mt-3 bg-success" type="submit">Buy / Long</ActionButton>
+                    <ActionButton pending={isPending} className="mt-3 bg-destructive" type="submit">Sell / Short</ActionButton>
+                </div>
             </form>
         </Form>
     );

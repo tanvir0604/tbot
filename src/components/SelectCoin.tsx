@@ -51,7 +51,7 @@ export default function SelectCoin({onSelect, defaultValue}:{onSelect:Function, 
         >
           {value
             ? coinData.find((item:TradingPairType) => item.symbol === value)?.symbol
-            : "Select coin..."}
+            : "Select Symbol..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

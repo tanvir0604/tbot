@@ -23,7 +23,7 @@ export async function checkTrade(symbol: string):Promise<NotificationType|true>{
         return {type: 'error', msg: 'This trade is already active'};
     }
     check = await getPositionDetails(symbol);
-    if(check){
+    if(check.length){
         return {type: 'error', msg: 'This trade is already active on binance'};
     }
     return true;
