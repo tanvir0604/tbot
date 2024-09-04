@@ -1,11 +1,12 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import type { WSDataTypeMain, TradeType } from '@/lib/types';
 
 // Define the context and provider
-const WebSocketContext = createContext(null);
+const WebSocketContext = createContext<WSDataTypeMain>({});
 
-export function WebSocketProvider({ coins, children }) {
+export function WebSocketProvider({ coins, children } : {coins: TradeType[], children: React.ReactNode}) {
   const [data, setData] = useState({});
 
   useEffect(() => {

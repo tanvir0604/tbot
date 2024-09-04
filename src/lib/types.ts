@@ -16,6 +16,17 @@ export type AnyDataType = Record<string, any>;
 
 export type ApiResponseDataType = {
     status: Boolean;
-    msg?: String;
+    msg?: string;
     data?: {}
+}
+
+export type WSDataTypeMain = {
+    [key:string]: WSDataType
+}
+
+export type WSDataType = {
+    volume?: number,
+    price?: number,
+    changeAmount?: number,
+    changePercentage?: number,
 }

@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Check, CircleX } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { TradeType } from "@/lib/types";
+import { TradeType, WSDataType } from "@/lib/types";
 import { useWebSocket } from '@/contexts/WebSocketContext';
 
 export default function PairCards({item} : {item : TradeType}) {
