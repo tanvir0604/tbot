@@ -21,10 +21,9 @@ export default function PairCards({item} : {item : TradeType}) {
         if (!tradingViewRef.current) return;
         
         if ((window as any).TradingView) {
-            // Initialize the TradingView widget
             new (window as any).TradingView.widget({
-                symbol: item.symbol,  // Dynamic symbol
-                container_id: `tradingview_${item.symbol}`,  // Unique container ID
+                symbol: `BINANCE:${item.symbol}.P`,
+                container_id: `tradingview_${item.symbol}`,
                 width: '100%',
                 height: 300,
                 interval: '1H',
@@ -46,7 +45,7 @@ export default function PairCards({item} : {item : TradeType}) {
     return (
         <Card className="w-full">
             <CardHeader className="flex flex-row items-center w-full">
-                <CardTitle className={`flex-shrink-0 w-1/3 text-left ${item.type === 'LONG' ? 'text-green-500' : 'text-red-500'}`}>{item.symbol}</CardTitle>
+                <CardTitle className={`flex-shrink-0 w-1/3 text-left font-extrabold ${item.type === 'LONG' ? 'text-green-500' : 'text-red-500'}`}>{item.symbol}</CardTitle>
                 <CardTitle className="flex-1 text-center">V:23423</CardTitle>
                 <CardTitle className="flex-shrink-0 w-1/3 text-right">CP:59345.02</CardTitle>
             </CardHeader>
