@@ -22,7 +22,7 @@ export default function CreateNewTradeButton(){
           e.preventDefault();
         }}>
             <DialogHeader>
-            <DialogTitle>Create New Trade</DialogTitle>
+            <DialogTitle className="text-primary">Create New Trade</DialogTitle>
             <DialogDescription>
                 Please choose right data before you submit.
             </DialogDescription>
