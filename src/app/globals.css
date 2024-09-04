@@ -17,6 +17,8 @@
     --secondary-foreground: 240 5.9% 10%;
     --success: 84.8 85.2% 34.5%;
     --success-foreground: 84.8 85.2% 34.5%;
+    --danger: 0 72.2% 50.6%;
+    --danger-foreground: 0 72.2% 50.6%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
@@ -46,6 +48,8 @@
     --primary-foreground: 240 5.9% 10%;
     --success: 84.8 85.2% 34.5%;
     --success-foreground: 84.8 85.2% 34.5%;
+    --danger: 0 90.6% 70.8%;
+    --danger-foreground: 0 90.6% 70.8%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
@@ -73,3 +77,4 @@
     @apply bg-background text-foreground;
   }
 }
+

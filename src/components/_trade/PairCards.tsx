@@ -12,14 +12,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Check, CircleX } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { TradeType } from "@/lib/types";
-import WebSocket from 'isomorphic-ws';
+import { useWebSocket } from '@/contexts/WebSocketContext';
 
 export default function PairCards({item} : {item : TradeType}) {
 
     const tradingViewRef = useRef(null);
     const [volume, setVolume] = useState<number | null>(null);
     const [price, setPrice] = useState<number | null>(null);
+    const [changeAmount, setChangeAmount] = useState<number | null>(null);
+    const [changePercentage, setChangePercentage] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
+    const wsData = useWebSocket();
 
     useEffect(() => {
         if (!tradingViewRef.current) return;
@@ -47,45 +50,14 @@ export default function PairCards({item} : {item : TradeType}) {
     }, []);
 
     useEffect(() => {
-        let timeoutId: NodeJS.Timeout;
-        const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${item.symbol.toLowerCase()}@ticker`);
-
-        ws.onopen = () => {
-            setLoading(true);
-            // Set a timeout to handle cases where the data is not received
-            timeoutId = setTimeout(() => {
-                if (loading) {
-                    setVolume(0);
-                    setPrice(0);
-                    setLoading(false);
-                }
-            }, 5000); // 5 seconds timeout
-        };
-
-        ws.onmessage = (event: { data: any; }) => {
-            const data = JSON.parse(event.data);
-            setVolume(parseFloat(data.v)); // 'v' is the volume
-            setPrice(parseFloat(data.c)); // 'c' is the current price
-            setLoading(false); // Data received successfully, stop loading
-            clearTimeout(timeoutId); // Clear the timeout if data is received
-        };
-
-        ws.onerror = () => {
-            setVolume(null);
-            setPrice(null);
+        if (wsData[item.symbol]) {
+            setVolume(wsData[item.symbol]?.volume || 0);
+            setPrice(wsData[item.symbol]?.price || 0);
+            setChangeAmount(wsData[item.symbol]?.changeAmount || 0);
+            setChangePercentage(wsData[item.symbol]?.changePercentage || 0);
             setLoading(false);
-            clearTimeout(timeoutId);
-        };
-
-        ws.onclose = () => {
-            clearTimeout(timeoutId);
-        };
-
-        return () => {
-            ws.close();
-            clearTimeout(timeoutId);
-        };
-    }, [item.symbol]);
+        }
+    }, [wsData]);
 
     const formatVolume = (volume: number) => {
         if (volume >= 1e9) {
@@ -103,9 +75,15 @@ export default function PairCards({item} : {item : TradeType}) {
     return (
         <Card className="w-full">
             <CardHeader className="flex flex-row items-center w-full">
-                <CardTitle className={`flex-shrink-0 w-1/3 text-left font-extrabold ${item.type === 'LONG' ? 'text-green-500' : 'text-red-500'}`}>{item.symbol}</CardTitle>
-                <CardTitle className="flex-1 text-center">V:{loading ? 'Loading...' : volume ? formatVolume(volume) : 0}</CardTitle>
-                <CardTitle className="flex-shrink-0 w-1/3 text-right">CP:{loading ? 'Loading...' : price}</CardTitle>
+                <CardTitle className="flex-shrink-0 w-1/3 text-left">
+                    <div className={`font-extrabold ${item.type === 'LONG' ? 'text-success' : 'text-danger'}`}>{item.symbol}</div>
+                    <div className="text-[12px] font-medium mt-2">{loading ? 'Loading...' : volume ? formatVolume(volume) : 0}</div>
+                </CardTitle>
+                <CardTitle className="flex-1 text-center">{loading ? 'Loading...' : volume ? formatVolume(volume) : 0}</CardTitle>
+                <CardTitle className="flex-shrink-0 w-1/3 text-right">
+                    <div className={`font-extrabold`}>{loading ? 'Loading...' : price}</div>
+                    <div className={`text-[12px] font-medium mt-2 ${changeAmount && changeAmount >= 0 ? 'text-success' : 'text-danger'}`}>{loading ? 'Loading...' : changeAmount ? changeAmount+' ('+changePercentage+'%)' : 0}</div>
+                </CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -123,7 +101,7 @@ export default function PairCards({item} : {item : TradeType}) {
                         <TableRow>
                             <TableCell>$100</TableCell>
                             <TableCell>$105</TableCell>
-                            <TableCell>${price ? price : 0}</TableCell>
+                            <TableCell>{price ? price : 0}</TableCell>
                             <TableCell>$98</TableCell>
                         </TableRow>
                     </TableBody>
