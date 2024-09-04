@@ -18,7 +18,7 @@ import {
 
   
 
-import { createNewTrade } from "@/lib/actions";
+import { checkTrade, createNewTrade } from "@/lib/actions";
 import Notification from "@/components/Notification";
 import { NotificationType } from "@/lib/types";
 import SelectCoin from "@/components/SelectCoin";
@@ -54,7 +54,15 @@ export default function CreateNewTradeForm() {
     }
 
     useEffect(() => {
-        checkTrade(symbol);
+        const checkTradeInfo = async () => {
+            const check = await checkTrade(symbol);
+            if(check){
+                return false;
+            }else{
+                setMessage(check);
+            }
+            
+        }
     }, [symbol])
 
 
