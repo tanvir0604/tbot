@@ -273,6 +273,20 @@ export default class Model {
                 await prisma.$disconnect();
             }
         }
-        
+    }
+
+    async truncate(
+        disconnect: boolean = true
+    ) {
+        try {
+            const item = await (prisma[this.table] as any).deleteMany();
+            return item;
+        } catch (error) {
+            return false;
+        }finally{
+            if(disconnect){
+                await prisma.$disconnect();
+            }
+        }
     }
 }
