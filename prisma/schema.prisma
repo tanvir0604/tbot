@@ -22,6 +22,8 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   trade       Trade[]
+  binanceSettings       BinanceSettings[]
+  tradeSettings       TradeSettings[]
 }
 
 model Trade {
@@ -44,4 +46,25 @@ model TradingPair {
   status      Boolean @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model BinanceSettings {
+  id          Int      @id @default(autoincrement())
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    Int
+  apiKey      String
+  apiSecret   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TradeSettings {
+  id              Int      @id @default(autoincrement())
+  author          User     @relation(fields: [authorId], references: [id])
+  authorId        Int
+  leverageType    Int      @db.TinyInt @default(0)
+  leverageAmount  Float
+  leverageMargin  Float
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
