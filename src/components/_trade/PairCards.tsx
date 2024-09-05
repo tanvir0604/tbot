@@ -15,6 +15,8 @@ import { TradeType, WSDataType } from "@/lib/types";
 import { useWebSocket } from '@/contexts/WebSocketContext';
 import TradeCloseButton from "../_button/TradeCloseButton";
 import TradeDcaButton from "../_button/TradeDcaButton";
+import TakeProfitForm from "./TakeProfitForm";
+import StopLossForm from "./StopLossForm";
 
 export default function PairCards({item} : {item : TradeType}) {
 
@@ -143,18 +145,8 @@ export default function PairCards({item} : {item : TradeType}) {
                             </TableRow>
                         </TableBody>
                     </Table>
-                    <div className="flex flex-col md:flex-row items-center mt-4">
-                        <Label className="flex-shrink-0 mb-2 md:mb-0 md:mr-2">Take Profit:</Label>
-                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter value" />
-                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter percentage" />
-                        <Check color="white" size={20} />
-                    </div>
-                    <div className="flex flex-col md:flex-row items-center mt-4">
-                        <Label className="flex-shrink-0 mb-2 md:mb-0 md:mr-2">Stop Loss:</Label>
-                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter value" />
-                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter percentage" />
-                        <Check color="white" size={20} />
-                    </div>
+                    <TakeProfitForm />
+                    <StopLossForm />
                 </div>
             </CardContent>
             <CardFooter className={item.status === 1 ? 'block' : 'hidden'}>

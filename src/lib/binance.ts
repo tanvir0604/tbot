@@ -3,8 +3,8 @@ import crypto, { sign } from 'crypto';
 
 import type { AnyDataType, TradingPairType } from '@/lib/types';
 
-const API_KEY = '6efff946387c66fa996904ccbb7cca0a6ef2417b729f8027c89594a60cff70fb';
-const API_SECRET = 'c26eca0c083b9a7289c1fb3df07304c2117b92eb6fa48c96523f977ac64f843c';
+const API_KEY = '45bca6fc6124df9ceccaaaf045b2acec43710d3ea5aa6e7f9670a624c1123fc0';
+const API_SECRET = 'c41051382f49d0c50b9f35ad62c4ae68ad33cba1efc5ccd611bf7fb9c4238aac';
 const BASE_URL = 'https://testnet.binancefuture.com';
 
 function createSignature(params: Record<string, any>, secret: string): string {
