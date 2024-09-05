@@ -1,5 +1,6 @@
 import Logo from "@/components/_template/Logo";
 import { ModeToggle } from "@/components/_template/ModeToggle";
+import { SettingsButton } from "@/components/_template/SettingsButton";
 import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -11,71 +12,77 @@ export async function Navbar() {
   return (
     <div className="bg-white dark:bg-black dark:border-b drop-shadow-lg">
       <div className="flex h-20 shrink-0 items-center mx-auto px-4">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="lg:hidden">
-              <MenuIcon className="h-6 w-6" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetClose asChild>
-              <Link href="/" className="lg:hidden" prefetch={false}>
-                <Logo />
-              </Link>
-            </SheetClose>
-            <hr className="my-4" />
-            <div className="grid gap-2">
-              <SheetClose asChild>
-                <Link
-                  href="/"
-                  className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
-                >
-                  Home
-                </Link>
-              </SheetClose>
-              <SheetClose asChild>
-                <Link
-                  href="/"
-                  className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
-                >
-                  Settings
-                </Link>
-              </SheetClose>
-
-              <SheetClose asChild>
-                <CreateNewTradeButton />
-              </SheetClose>
+          <Sheet>
+              <SheetTrigger asChild>
+                  <Button variant="outline" size="icon" className="lg:hidden">
+                      <MenuIcon className="h-6 w-6" />
+                      <span className="sr-only">Toggle navigation menu</span>
+                  </Button>
+              </SheetTrigger>
               
-            </div>
-          </SheetContent>
-        </Sheet>
-        <div className="lg:hidden flex ml-auto gap-2">
-          <ModeToggle />
-        </div>
+              <SheetContent side="left">
+                  <SheetClose asChild>
+                    <Link href="/" className="lg:hidden" prefetch={false}>
+                      <Logo />
+                    </Link>
+                  </SheetClose>
+                  <hr className="my-4" />
+                  <div className="grid gap-2">
+                    <SheetClose asChild>
+                      <Link
+                        href="/"
+                        className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
+                      >
+                        Home
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link
+                        href="/Settings"
+                        target="_blank"
+                        className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
+                      >
+                        Settings
+                      </Link>
+                    </SheetClose>
+
+                    <SheetClose asChild>
+                      <CreateNewTradeButton />
+                    </SheetClose>
+                  </div>
+              </SheetContent>
+          </Sheet>
+
+          <div className="lg:hidden flex ml-auto gap-2">
+            <ModeToggle />
+          </div>
+
           <Link href="/" className="mr-6 hidden lg:flex" prefetch={false}>
             <Logo />
           </Link>
+
           <div className="ml-auto">
             {/* <ProfileInfo /> */}
           </div>
+
           <nav className="ml-auto hidden lg:flex gap-2">
-            {/* <Link
-              href="/"
-              className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
-            >
-              Home
-            </Link>
-            <Link
-              href="/"
-              className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
-            >
-              Settings
-            </Link> */}
-            {/* <RefreshButton /> */}
-            <CreateNewTradeButton />
-            
-            <ModeToggle /> 
+              {/* <Link
+                href="/"
+                className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
+              >
+                Home
+              </Link>
+              <Link
+                href="/"
+                className="text-lg tracking-wide text-zinc-900 dark:text-zinc-200 hover:text-primary active:text-primary"
+              >
+                Settings
+              </Link> */}
+              {/* <RefreshButton /> */}
+              <CreateNewTradeButton />
+              
+              <ModeToggle />
+              <SettingsButton />
           </nav>
       </div>
     </div>
