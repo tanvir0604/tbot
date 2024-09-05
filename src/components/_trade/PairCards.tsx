@@ -13,6 +13,8 @@ import { Check, CircleX } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { TradeType, WSDataType } from "@/lib/types";
 import { useWebSocket } from '@/contexts/WebSocketContext';
+import TradeCloseButton from "../_button/TradeCloseButton";
+import TradeDcaButton from "../_button/TradeDcaButton";
 
 export default function PairCards({item} : {item : TradeType}) {
 
@@ -87,8 +89,8 @@ export default function PairCards({item} : {item : TradeType}) {
             </CardHeader>
 
             <CardContent>
-                <div ref={tradingViewRef} id={`tradingview_${item.symbol}`} className="w-full mb-4"></div>
-                <Table className="w-full mt-4">
+                <div ref={tradingViewRef} id={`tradingview_${item.symbol}`} className="w-full"></div>
+                <Table className="w-full mt-4 mb-0">
                     <TableHeader>
                         <TableRow>
                             <TableHead>Entry Price</TableHead>
@@ -106,13 +108,13 @@ export default function PairCards({item} : {item : TradeType}) {
                         </TableRow>
                     </TableBody>
                 </Table>
-                <h5 className="mt-4 text-left w-full">Take Profit</h5>
                 <Table className="w-full mt-2">
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-1/3">Price</TableHead>
-                            <TableHead className="w-1/3">Size</TableHead>
-                            <TableHead className="w-1/3">Completed?</TableHead>
+                            <TableHead className="w-1/4">Price</TableHead>
+                            <TableHead className="w-1/4">Size</TableHead>
+                            <TableHead className="w-1/4">Type</TableHead>
+                            <TableHead className="w-1/4">Completed?</TableHead>
                             <TableHead>Action</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -120,12 +122,21 @@ export default function PairCards({item} : {item : TradeType}) {
                         <TableRow>
                             <TableCell>$110</TableCell>
                             <TableCell>50%</TableCell>
+                            <TableCell>TP</TableCell>
                             <TableCell>Yes</TableCell>
                             <TableCell><CircleX color="white" size={20} /></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>$115</TableCell>
                             <TableCell>25%</TableCell>
+                            <TableCell>TP</TableCell>
+                            <TableCell>No</TableCell>
+                            <TableCell><CircleX color="white" size={20} /></TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>$115</TableCell>
+                            <TableCell>100%</TableCell>
+                            <TableCell>SL</TableCell>
                             <TableCell>No</TableCell>
                             <TableCell><CircleX color="white" size={20} /></TableCell>
                         </TableRow>
@@ -144,6 +155,12 @@ export default function PairCards({item} : {item : TradeType}) {
                     <Check color="white" size={20} />
                 </div>
             </CardContent>
+            <CardFooter>
+                <div className="flex flex-col md:flex-row items-center w-full">
+                    <TradeDcaButton className="md:w-2/3 w-full mr-5 bg-success hover:bg-success text-zink" />
+                    <TradeCloseButton className="md:w-2/3 w-full bg-destructive hover:bg-destructive text-zink" />
+                </div>
+            </CardFooter>
         </Card>
     )
 }

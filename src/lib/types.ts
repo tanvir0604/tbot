@@ -30,3 +30,7 @@ export type WSDataType = {
     changeAmount?: number,
     changePercentage?: number,
 }
+
+export type TradeDCAAndClose = {
+    className?: string;
+}

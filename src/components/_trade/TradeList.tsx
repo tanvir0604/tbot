@@ -7,7 +7,7 @@ import { WebSocketProvider } from '@/contexts/WebSocketContext';
 
 export default async function TradeList() {
   const trade = new Trade();
-  const tradeList: TradeType[] | false = await trade.getItems({ status: { in: [0, 1] } }, false, false, { createdAt: 'desc' });
+  const tradeList: TradeType[] | false = await trade.getItems({ status: { in: [0, 1] } }, false, false, { id: 'desc' });
   if (!tradeList) return <></>;
 
   return (
