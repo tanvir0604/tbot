@@ -145,7 +145,7 @@ export default function PairCards({item} : {item : TradeType}) {
                             </TableRow>
                         </TableBody>
                     </Table>
-                    <TakeProfitForm />
+                    <TakeProfitForm symbol={item.symbol} itemType={item.type} />
                     <StopLossForm />
                 </div>
             </CardContent>

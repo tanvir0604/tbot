@@ -51,3 +51,18 @@ export const CreateNewTradeSchema = z.object({
         invalid_type_error: "String needed"
     }).min(1, "This field is required"),
 });
+
+export const CreateTPSLSchema = z.object({
+    amount: z.coerce.number({
+        required_error: "This field is required",
+        invalid_type_error: "Number needed"
+    }).positive({
+        message: "must be positive",
+    }),
+    percentage: z.coerce.number({
+        required_error: "This field is required",
+        invalid_type_error: "Number needed"
+    }).positive({
+        message: "must be positive",
+    }).max(100, {message: "must be less than or equal 100%",})
+});

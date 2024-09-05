@@ -17,9 +17,6 @@ export default async function TradeList() {
           <Suspense key={index} fallback={
             <>
               <Skeleton className="h-[300px] w-full" />
-              <Skeleton className="h-[300px] w-full" />
-              <Skeleton className="h-[300px] w-full" />
-              <Skeleton className="h-[300px] w-full" />
             </>
           }>
             <PairCards item={item} />

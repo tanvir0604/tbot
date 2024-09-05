@@ -34,3 +34,10 @@ export type WSDataType = {
 export type TradeDCAAndClose = {
     className?: string;
 }
+
+export type TakeProfitParams = {
+    symbol: string;
+    amount: number;
+    percentage: number;
+    itemType: string;
+};
