@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import BinanceSettings from "@/lib/models/BinanceSettings";
+import TradeSettings from "@/lib/models/TradeSettings";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState<"binance_settings" | "trade_settings">("binance_settings");
@@ -34,15 +36,35 @@ export default function Settings() {
 }
 
 function BinanceSettingsForm() {
-  const [formData, setFormData] = useState({ apiKey: "", appSecret: "" });
+  const [formData, setFormData] = useState({ apiKey: "", apiSecret: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      console.log("Form 1 Submitted", formData);
+
+      try {
+        const response = await fetch("/api/binanceSettings", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Settings saved successfully!");
+        } else {
+            console.error(result.message);
+            alert("Error saving settings.");
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
   };
 
   return (
@@ -63,8 +85,8 @@ function BinanceSettingsForm() {
             <label className="block mb-2">API Secret</label>
             <input
               type="text"
-              name="appSecret"
-              value={formData.appSecret}
+              name="apiSecret"
+              value={formData.apiSecret}
               onChange={handleChange}
               className="w-full border border-gray-300 p-2 rounded"
               required

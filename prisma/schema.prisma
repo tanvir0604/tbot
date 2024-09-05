@@ -51,7 +51,7 @@ model TradingPair {
 model BinanceSettings {
   id          Int      @id @default(autoincrement())
   author      User     @relation(fields: [authorId], references: [id])
-  authorId    Int
+  authorId    Int      @unique
   apiKey      String
   apiSecret   String
   createdAt   DateTime @default(now())
@@ -61,7 +61,7 @@ model BinanceSettings {
 model TradeSettings {
   id              Int      @id @default(autoincrement())
   author          User     @relation(fields: [authorId], references: [id])
-  authorId        Int
+  authorId        Int      @unique
   leverageType    Int      @db.TinyInt @default(0)
   leverageAmount  Float
   leverageMargin  Float
