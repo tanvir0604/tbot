@@ -90,72 +90,74 @@ export default function PairCards({item} : {item : TradeType}) {
 
             <CardContent>
                 <div ref={tradingViewRef} id={`tradingview_${item.symbol}`} className="w-full"></div>
-                <Table className="w-full mt-4 mb-0">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Entry Price</TableHead>
-                            <TableHead>Breakeven Price</TableHead>
-                            <TableHead>Mark. Price</TableHead>
-                            <TableHead>Liq. Price</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>$100</TableCell>
-                            <TableCell>$105</TableCell>
-                            <TableCell>{price ? price : 0}</TableCell>
-                            <TableCell>$98</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-                <Table className="w-full mt-2">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-1/4">Price</TableHead>
-                            <TableHead className="w-1/4">Size</TableHead>
-                            <TableHead className="w-1/4">Type</TableHead>
-                            <TableHead className="w-1/4">Completed?</TableHead>
-                            <TableHead>Action</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>$110</TableCell>
-                            <TableCell>50%</TableCell>
-                            <TableCell>TP</TableCell>
-                            <TableCell>Yes</TableCell>
-                            <TableCell><CircleX color="white" size={20} /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>$115</TableCell>
-                            <TableCell>25%</TableCell>
-                            <TableCell>TP</TableCell>
-                            <TableCell>No</TableCell>
-                            <TableCell><CircleX color="white" size={20} /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>$115</TableCell>
-                            <TableCell>100%</TableCell>
-                            <TableCell>SL</TableCell>
-                            <TableCell>No</TableCell>
-                            <TableCell><CircleX color="white" size={20} /></TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-                <div className="flex flex-col md:flex-row items-center mt-4">
-                    <Label className="flex-shrink-0 mb-2 md:mb-0 md:mr-2">Take Profit:</Label>
-                    <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter value" />
-                    <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter percentage" />
-                    <Check color="white" size={20} />
-                </div>
-                <div className="flex flex-col md:flex-row items-center mt-4">
-                    <Label className="flex-shrink-0 mb-2 md:mb-0 md:mr-2">Stop Loss:</Label>
-                    <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter value" />
-                    <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter percentage" />
-                    <Check color="white" size={20} />
+                <div className={item.status === 1 ? 'block' : 'hidden'}>
+                    <Table className="w-full mt-4 mb-0">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Entry Price</TableHead>
+                                <TableHead>Breakeven Price</TableHead>
+                                <TableHead>Mark. Price</TableHead>
+                                <TableHead>Liq. Price</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>$100</TableCell>
+                                <TableCell>$105</TableCell>
+                                <TableCell>{price ? price : 0}</TableCell>
+                                <TableCell>$98</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                    <Table className="w-full mt-2">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-1/4">Price</TableHead>
+                                <TableHead className="w-1/4">Size</TableHead>
+                                <TableHead className="w-1/4">Type</TableHead>
+                                <TableHead className="w-1/4">Completed?</TableHead>
+                                <TableHead>Action</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>$110</TableCell>
+                                <TableCell>50%</TableCell>
+                                <TableCell>TP</TableCell>
+                                <TableCell>Yes</TableCell>
+                                <TableCell><CircleX color="white" size={20} /></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>$115</TableCell>
+                                <TableCell>25%</TableCell>
+                                <TableCell>TP</TableCell>
+                                <TableCell>No</TableCell>
+                                <TableCell><CircleX color="white" size={20} /></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>$115</TableCell>
+                                <TableCell>100%</TableCell>
+                                <TableCell>SL</TableCell>
+                                <TableCell>No</TableCell>
+                                <TableCell><CircleX color="white" size={20} /></TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                    <div className="flex flex-col md:flex-row items-center mt-4">
+                        <Label className="flex-shrink-0 mb-2 md:mb-0 md:mr-2">Take Profit:</Label>
+                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter value" />
+                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter percentage" />
+                        <Check color="white" size={20} />
+                    </div>
+                    <div className="flex flex-col md:flex-row items-center mt-4">
+                        <Label className="flex-shrink-0 mb-2 md:mb-0 md:mr-2">Stop Loss:</Label>
+                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter value" />
+                        <Input className="flex-1 mb-2 md:mb-0 md:mr-2" placeholder="Enter percentage" />
+                        <Check color="white" size={20} />
+                    </div>
                 </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className={item.status === 1 ? 'block' : 'hidden'}>
                 <div className="flex flex-col md:flex-row items-center w-full">
                     <TradeDcaButton className="md:w-2/3 w-full mr-5 bg-success hover:bg-success text-zink" />
                     <TradeCloseButton className="md:w-2/3 w-full bg-destructive hover:bg-destructive text-zink" />
