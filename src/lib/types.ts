@@ -1,8 +1,10 @@
-import type { User, Trade, TradingPair } from "@prisma/client";
+import type { User, Trade, TradingPair, BinanceSettings, TradeSettings  } from "@prisma/client";
 
 export type UserType = User;
 export type TradeType = Trade;
 export type TradingPairType = TradingPair;
+export type BinanceSettingsType = BinanceSettings;
+export type TradeSettingsType = TradeSettings;
 
 export type QueryType = {where?:{}, select?:{}, include?:{}, skip?: number, take?: number, orderBy?: {}};
 
