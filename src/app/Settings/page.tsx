@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BinanceSettings from "@/lib/models/BinanceSettings";
 import TradeSettings from "@/lib/models/TradeSettings";
 
@@ -37,6 +37,7 @@ export default function Settings() {
 
 function BinanceSettingsForm() {
   const [formData, setFormData] = useState({ apiKey: "", apiSecret: "" });
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,131 +68,161 @@ function BinanceSettingsForm() {
       }
   };
 
+  useEffect(() => {
+    const fetchBinanceSettings = async () => {
+      try {
+        const response = await fetch("/api/binanceSettings", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            setFormData({
+                apiKey: result.data.apiKey || "",
+                apiSecret: result.data.apiSecret || "",
+            });
+        } else {
+            console.error(result.message);
+            alert("Error fetching settings.");
+        }
+      } catch (error) {
+          console.error("Error fetching settings:", error);
+      } finally {
+          setLoading(false);
+      }
+    };
+    fetchBinanceSettings();
+  }, []); 
+
   return (
-    <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-            <label className="block mb-2">API Key</label>
-            <input
-              type="text"
-              name="apiKey"
-              value={formData.apiKey}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-        </div>
+      <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+              <label className="block mb-2">API Key</label>
+              <input
+                type="text"
+                name="apiKey"
+                value={formData.apiKey}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              />
+          </div>
 
-        <div className="mb-4">
-            <label className="block mb-2">API Secret</label>
-            <input
-              type="text"
-              name="apiSecret"
-              value={formData.apiSecret}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-        </div>
+          <div className="mb-4">
+              <label className="block mb-2">API Secret</label>
+              <input
+                type="text"
+                name="apiSecret"
+                value={formData.apiSecret}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              />
+          </div>
 
-        <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
-            Submit
-        </button>
-    </form>
+          <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
+              Submit
+          </button>
+      </form>
   );
 }
 
 function TradeSettingsForm() {
-  const [formData, setFormData] = useState({
-      leverageType: "0",
-      leverageAmount: "",
-      leverageMargin: ""
-  });
+    const [formData, setFormData] = useState({
+        leverageType: "0",
+        leverageAmount: "",
+        leverageMargin: ""
+    });
 
-  const [error, setError] = useState("");
+    const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
 
-      if (name === "leverageAmount") {
-          if (parseInt(value) > 20) {
-              setError("Leverage amount cannot exceed 20x.");
-          } else {
-              setError("");
-          }
-      }
-  
-      setFormData({ ...formData, [name]: value });
-      // setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+        if (name === "leverageAmount") {
+            if (parseInt(value) > 20) {
+                setError("Leverage amount cannot exceed 20x.");
+            } else {
+                setError("");
+            }
+        }
+    
+        setFormData({ ...formData, [name]: value });
+        // setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-  const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      if (error) {
-        console.log(error);
-        return;
-      }
-      else{
-        console.log("Form 2 Submitted", formData);
-      }
-  };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (error) {
+          console.log(error);
+          return;
+        }
+        else{
+          console.log("Form 2 Submitted", formData);
+        }
+    };
 
-  return (
-    <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-            <label className="block mb-2">Leverage Type</label>
-            <div>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="leverageType"
-                    value="0"
-                    onChange={handleChange}
-                    className="mr-2"
-                  />
-                  Cross
-                </label>
-                <label className="inline-flex items-center ml-4">
-                  <input
-                    type="radio"
-                    name="leverageType"
-                    value="1"
-                    onChange={handleChange}
-                    className="mr-2"
-                  />
-                  Isolated
-                </label>
-            </div>
-        </div>
+    return (
+      <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+              <label className="block mb-2">Leverage Type</label>
+              <div>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="leverageType"
+                      value="0"
+                      onChange={handleChange}
+                      className="mr-2"
+                    />
+                    Cross
+                  </label>
+                  <label className="inline-flex items-center ml-4">
+                    <input
+                      type="radio"
+                      name="leverageType"
+                      value="1"
+                      onChange={handleChange}
+                      className="mr-2"
+                    />
+                    Isolated
+                  </label>
+              </div>
+          </div>
 
-        <div className="mb-4">
-            <label className="block mb-2">Leverage Amount</label>
-            <input
-              type="number"
-              name="leverageAmount"
-              value={formData.leverageAmount}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-            {error && <span className="text-red-500">{error}</span>}
-            {!error && <span>Leverage amount can be max 20x</span>}
-        </div>
+          <div className="mb-4">
+              <label className="block mb-2">Leverage Amount</label>
+              <input
+                type="number"
+                name="leverageAmount"
+                value={formData.leverageAmount}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              />
+              {error && <span className="text-red-500">{error}</span>}
+              {!error && <span>Leverage amount can be max 20x</span>}
+          </div>
 
-        <div className="mb-4">
-            <label className="block mb-2">Leverage Margin</label>
-            <input
-              type="number"
-              name="leverageMargin"
-              value={formData.leverageMargin}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded"
-              required
-            />
-        </div>
+          <div className="mb-4">
+              <label className="block mb-2">Leverage Margin</label>
+              <input
+                type="number"
+                name="leverageMargin"
+                value={formData.leverageMargin}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              />
+          </div>
 
-        <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
-            Submit
-        </button>
-    </form>
-  );
+          <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
+              Submit
+          </button>
+      </form>
+    );
 }
